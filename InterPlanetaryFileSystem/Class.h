@@ -1,106 +1,41 @@
 #pragma once
 #include<iostream>
 #include<string>
+#include"BTreeClass.h"
 
-struct TreeNode {
-    Computer computer;
-    TreeNode* left;
-    TreeNode* right;
 
-    TreeNode(const Computer& comp) : computer(comp), left(nullptr), right(nullptr) {}
-};
+using namespace std;
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 class Computer {
 public:
     std::string name;
+    //BTree* tree;
 
-    Computer() : name("") {}
-
-    explicit Computer(const std::string& computerName) : name(computerName) {}
-
-    // Binary Search Tree (BST) related members and methods
-private:
     
-
-    TreeNode* root;
-
-public:
-    // Constructor for initializing the BST
-    Computer(const std::string& computerName, const std::string& rootName) : name(computerName), root(nullptr) {
-        root = new TreeNode(Computer(rootName));
+    Computer(const std::string& computerName,int btreeSize) : name(computerName) 
+    {
+      //  tree = new BTree(btreeSize);
     }
 
-    // Function to insert a computer into the BST
-    void insert(const Computer& comp) {
-        root = insertRecursive(root, comp);
-    }
+    //void insert(int key)
+    //{
+    //    tree->insert(key);
+    //}
+    //void remove(int key)
+    //{
+    //    tree->remove(key);
+    //}
+    //int Search(int key)
+    //{
+    //    BTreeNode* node = tree->search(key);
+    //    if(node)
+    //        return node->getFile(key);
+    //    return -1;
+    //}
 
-    // Function to search for a computer in the BST
-    bool search(const std::string& compName) const {
-        return searchRecursive(root, compName);
-    }
 
-    // Function for in-order traversal of the BST
-    void inOrderTraversal() const {
-        inOrderTraversalRecursive(root);
-    }
-
-    // Destructor to clean up the BST
-    ~Computer() {
-        destroyTree(root);
-    }
-
-private:
-    // Helper function for recursive insertion into the BST
-    TreeNode* insertRecursive(TreeNode* currentNode, const Computer& comp) {
-        if (currentNode == nullptr) {
-            return new TreeNode(comp);
-        }
-
-        if (comp.name < currentNode->computer.name) {
-            currentNode->left = insertRecursive(currentNode->left, comp);
-        }
-        else if (comp.name > currentNode->computer.name) {
-            currentNode->right = insertRecursive(currentNode->right, comp);
-        }
-
-        return currentNode;
-    }
-
-    // Helper function for recursive search in the BST
-    bool searchRecursive(TreeNode* currentNode, const std::string& compName) const {
-        if (currentNode == nullptr) {
-            return false;
-        }
-
-        if (compName == currentNode->computer.name) {
-            return true;
-        }
-        else if (compName < currentNode->computer.name) {
-            return searchRecursive(currentNode->left, compName);
-        }
-        else {
-            return searchRecursive(currentNode->right, compName);
-        }
-    }
-
-    // Helper function for in-order traversal of the BST
-    void inOrderTraversalRecursive(TreeNode* currentNode) const {
-        if (currentNode != nullptr) {
-            inOrderTraversalRecursive(currentNode->left);
-            std::cout << currentNode->computer.name << " ";
-            inOrderTraversalRecursive(currentNode->right);
-        }
-    }
-
-    // Helper function to clean up the BST
-    void destroyTree(TreeNode* currentNode) {
-        if (currentNode != nullptr) {
-            destroyTree(currentNode->left);
-            destroyTree(currentNode->right);
-            delete currentNode;
-        }
-    }
+    Computer() = default;
 };
 
 class Node {
@@ -110,12 +45,13 @@ public:
     Node* next;
     Node* prev;
     Node** fingerTable;
-    Computer computer;
+    Computer *computer;
 
-    Node() : data(-1), next(nullptr), prev(nullptr), fingerTable(nullptr), state(false) {}
+    Node() : data(-1), next(nullptr), prev(nullptr), fingerTable(nullptr), state(false), computer(nullptr) {}
     Node(int value, int bits, const std::string& computerName)
-        : data(value), next(nullptr), prev(nullptr), computer(computerName), state(false)
+        : data(value), next(nullptr), prev(nullptr), state(false)
     {
+        computer = new Computer(computerName, bits);
         fingerTable = new Node * [bits];
         for (int i = 0; i < bits; ++i)
         {
@@ -138,13 +74,12 @@ private:
 public:
     RingDHT(int bits) : identifierBits(bits), size(1 << bits) {
         head = nullptr;
-        initializeRing();
         initializeFingerTables();
     }
 
     int getSize();
     int getIdentifierBits();
-    void initializeRing();
+    //void initializeRing();
     void displayRing() const;
     Node* findNode(int) const;
     void initializeFingerTables();
@@ -176,5 +111,7 @@ public:
     bool authenticateUser(int, const std::string&);
     Node* getLoggedInUser() const;
     Node* searchNode(int) const;
-    void insertValuesIntoFingerTables(RingDHT&);
+    void insertFile(int file);
+    void removeFile(int file);
+    int searchFile(int file);
 };
