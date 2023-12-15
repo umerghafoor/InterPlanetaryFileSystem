@@ -53,14 +53,8 @@ void RingDHT::insertInOrder(int value) {
     do
     {
         updateRoutingTable(c);
-        for (int i = 0; i < numBits; ++i)
-        {
-            std::cout << c->routingTable[i]->data << ' ';
-        }
-        std::cout << '\n';
         c = c->next;
     } while (c != head);
-    std::cout << '\n';
 }
 
 // Function to update the routing table for a given node

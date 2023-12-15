@@ -130,6 +130,7 @@
     <ClInclude Include="BTree.h" />
     <ClInclude Include="BTreeNode.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="Hash.h" />
     <ClInclude Include="Login.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="RingDHT.h" />

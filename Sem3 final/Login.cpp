@@ -1,5 +1,5 @@
 #include "Login.h"
-
+#include"Hash.h"
 bool Login::authenticateUser(int nodeIndex)
 {
     loggedInUser = dht->searchNode(nodeIndex);
@@ -101,32 +101,35 @@ void Login::insertFile(File file)
 {
     if (loggedInUser)
     {
-        int comp = 12;// = file;
+        int comp = HashforComputer(file.name) % (1 << bits);
         Node* node = this->searchNode(comp);
-        int key = 1;
+        int key = HashforComputer(file.name);
 
         node->Files_btree->insert(key, file);
     }
 }
 
-void Login::removeFile(int key)
+void Login::removeFile(string file)
 {
     if (loggedInUser)
     {
-        int comp = 12;// = file;
+        int comp = HashforComputer(file) % (1 << bits);
         Node* node = this->searchNode(comp);
+
+        int key = HashforComputer(file);
 
         node->Files_btree->remove(key);
     }
 }
 
-int Login::searchFile(int key)
+int Login::searchFile(string file)
 {
     if (loggedInUser)
     {
-        int comp = 12;// = file;
+        int comp = HashforComputer(file) % (1 << bits);
         Node* node = this->searchNode(comp);
 
+        int key = HashforComputer(file);
         btreenode* result = node->Files_btree->search(key);
 
         if (result)
