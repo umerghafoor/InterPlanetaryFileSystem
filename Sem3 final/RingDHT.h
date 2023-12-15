@@ -10,21 +10,21 @@ private:
     int numBits; // Number of bits for the routing table
 
 public:
-    RingDHT(int bits);
+    RingDHT(int);
 
     // Function to insert a node in order and update the routing table
-    void insertInOrder(int value);
+    void insertInOrder(int);
 
     // Function to update the routing table for a given node
-    void updateRoutingTable(Node* node);
+    void updateRoutingTable(Node*);
 
     // Helper function to find the successor for routing table entries
-    Node* findSuccessor(Node* node, int index);
+    Node* findSuccessor(Node*, int);
     // Function to delete a node with a specific value
-    void deleteNode(int value);
+    void deleteNode(int);
 
     // Function to search for a node with a specific value
-    Node* searchNode(int value);
+    Node* searchNode(int);
 
     // Helper function to update routing tables for all nodes in the list
     void updateAllRoutingTables();

@@ -108,6 +108,7 @@ void Login::insertFile(File file)
     {
         int comp = HashforComputer(file.name) % (1 << bits);
         Node* node = this->searchNode(comp);
+        comp = node->data;
         std::cout << "\n";
         int key = HashforComputer(file.name);
 
@@ -144,6 +145,7 @@ void Login::removeFile(string file)
     {
         int comp = HashforComputer(file) % (1 << bits);
         Node* node = this->searchNode(comp);
+        comp = node->data;
         std::cout << "\n";
 
         int key = HashforComputer(file);
@@ -170,6 +172,7 @@ int Login::searchFile(string file)
     {
         int comp = HashforComputer(file) % (1 << bits);
         Node* node = this->searchNode(comp);
+        comp = node->data;
         std::cout << "\n";
 
         int key = HashforComputer(file);
@@ -186,4 +189,12 @@ int Login::searchFile(string file)
         return -1;
     }
     return -1;
+}
+
+void Login::printBtree()
+{
+    if (loggedInUser)
+    {
+        loggedInUser->Files_btree->traverse();
+    }
 }

@@ -17,8 +17,11 @@ void btreenode::traverse()
     {
         if (leaf == false)
             c[i]->traverse();
-        std::cout << " " << key[i];
-
+        std::cout << "File ";
+        std::cout << "\t" << key[i];
+        std::cout << "\t" << filepath[i].name;
+        std::cout << "\t" << filepath[i].path;
+        std::cout << "\n";
     }
 
     if (leaf == false)

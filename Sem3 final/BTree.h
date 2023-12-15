@@ -10,10 +10,10 @@ class btree
 
 public:
 
-	btree(int _t);
+	btree(int);
+	void insert(int, File);
 	void traverse();
-	void insert(int k, File f);
-	btreenode* search(int k);
-	void remove(int k);
+	void remove(int);
+	btreenode* search(int);
 };
 

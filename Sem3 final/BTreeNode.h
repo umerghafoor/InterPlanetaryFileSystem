@@ -14,22 +14,22 @@ public:
 	bool leaf;
 
 
-	btreenode(int _t, bool _leaf);
-	void insertnonfull(int k, File f);
+	btreenode(int, bool);
 
-	void splitchild(int i, btreenode* y);
 	void traverse();
-	btreenode* search(int k);
-	int findkey(int k);
-	void remove(int k);
-	void removefromleaf(int idx);
-	void removefromnonleaf(int idx);
-	int getpred(int idx);
-	int getsucc(int idx);
-	void fill(int idx);
-	void borrowfromprev(int idx);
-	void borrowfromnext(int idx);
-	void merge(int idx);
+	int findkey(int);
+	void splitchild(int i, btreenode* y);
+	void remove(int);
+	void borrowfromprev(int);
+	void removefromleaf(int);
+	void insertnonfull(int, File);
+	void merge(int);
+	void removefromnonleaf(int);
+	btreenode* search(int);
+	void borrowfromnext(int);
+	int getpred(int);
+	int getsucc(int);
+	void fill(int);
 
 	friend class btree;
 

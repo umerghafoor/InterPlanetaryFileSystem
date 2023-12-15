@@ -22,6 +22,7 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
         std::cout << "4. Insert File\n";
         std::cout << "5. Remove File\n";
         std::cout << "6. Search File\n";
+        std::cout << "7. print all Files\n";
         std::cout << "0. Back to Main Menu\n";
         std::cout << "Enter your choice: ";
         std::cin >> choice;
@@ -30,7 +31,7 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
         case 1: {
             int nodeIndex;
             std::string computerName;
-            std::cout << "Enter the index of the node to log in: ";
+            std::cout << "Enter the index of the Computer to log in: ";
             std::cin >> nodeIndex;
             myComputer.authenticateUser(nodeIndex);
             break;
@@ -38,7 +39,7 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
         case 2: {
             Node* loggedInUser = myComputer.getLoggedInUser();
             if (loggedInUser) {
-                std::cout << "Logged-in user: Node " << loggedInUser->data << "\n";
+                std::cout << "Logged-in user: Computer " << loggedInUser->data << "\n";
             }
             else
             {
@@ -56,11 +57,11 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
 
                 Node* targetNode = myComputer.searchNode(targetIndex);
                 if (targetNode) {
-                    std::cout << "Found target node: Node " << targetNode->data << "\n";
+                    std::cout << "You are at Computer No. " << targetNode->data << "\n";
                 }
                 else
                 {
-                    std::cout << "Target node not found.\n";
+                    std::cout << "Target Computer not found.\n";
                 }
             }
             else
@@ -101,6 +102,11 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
             {
                 std::cout << "File Not Found.\n";
             }
+            break;
+        }
+        case 7:
+        {
+            myComputer.printBtree();
             break;
         }
         case 0:

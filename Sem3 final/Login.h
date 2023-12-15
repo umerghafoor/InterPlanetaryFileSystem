@@ -19,4 +19,5 @@ public:
     void insertFile(File);
     void removeFile(string);
     int searchFile(string);
+    void printBtree();
 };

@@ -11,6 +11,6 @@ public:
     vector<Node*> routingTable;
     btree* Files_btree;
 
-    Node(int value, int numBits);
+    Node(int, int);
 };
 
