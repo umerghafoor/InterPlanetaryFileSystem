@@ -1,3 +1,4 @@
+
 #include "RingDHT.h"
 
 void displayLoginMenu(Login& myComputer, RingDHT& ring)
@@ -60,10 +61,18 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
         }
         case 4:
         {
-            int file;
-            std::cout << "Enter file: ";
-            std::cin >> file;
+            std::string name, path;
+
+            std::cout << "Enter Name of the file: ";
+            std::cin >> name;
+
+            std::cout << "Enter Path of the file: ";
+            std::cin >> path;
+
+            File file(name, path);
+
             myComputer.insertFile(file);
+
             break;
         }
         case 5:
@@ -78,7 +87,10 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
             int file;
             std::cout << "Enter file: ";
             std::cin >> file;
-            std::cout << myComputer.searchFile(file);
+            if (myComputer.searchFile(file) == -1)
+            {
+                std::cout << "File Not Found.\n";
+            }
             break;
         }
         case 0:
