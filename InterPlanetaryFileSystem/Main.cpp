@@ -1,49 +1,22 @@
-#include "Header.h"
+#include <iostream>
+#include <string>
 
-int main()
+int basicHash(const std::string& input) {
+    int hash = 0;
 
-{
+    for (char c : input) {
+        hash += static_cast<int>(c);
+    }
 
-    btree p(3); // A B-Tree with minimum degree 3
+    return hash;
+}
 
-    p.insert(1);
+int main() {
+    std::string input = "Hello, Worlddkjfwfenpfineiongioerngionringweniobgorgoubeougbuiwebgjowebuigbweioguiwebguiwebuibgowebguiwebuigbiwebgobweuigbuiwebguibweuibguwebuigbepijngpiwenhpgiberign!";
+    int hashed = basicHash(input);
 
-    p.insert(13);
-
-    p.insert(7);
-
-    p.insert(10);
-
-    p.insert(11);
-
-    p.insert(6);
-
-    p.insert(14);
-
-    p.insert(15);
-
-    cout << "Traversal of tree constructed is\n";
-
-    p.traverse();
-
-    cout << endl;
-
-    p.remove(6);
-
-    cout << "Traversal of tree after deleting 6\n";
-
-    p.traverse();
-
-    cout << endl;
-
-    p.remove(13);
-
-    cout << "Traversal of tree after deleting 13\n";
-
-    p.traverse();
-
-    cout << endl;
+    std::cout << "Input: " << input << std::endl;
+    std::cout << "Basic Hash: " << hashed << std::endl;
 
     return 0;
-
 }

@@ -1,5 +1,15 @@
 #include "RingDHT.h"
 
+int HashforComputer(const std::string& input) {
+    int hash = 0;
+
+    for (char c : input) {
+        hash += static_cast<int>(c);
+    }
+
+    return hash;
+}
+
 Node::Node(int value, int numBits) : data(value), next(nullptr), prev(nullptr) {
     this->Files_btree = new btree(numBits);
     // Initialize routing table with entries for succ(p + 2^i), i = 1, ..., log2(N)
@@ -62,14 +72,9 @@ void RingDHT::insertInOrder(int value) {
     do
     {
         updateRoutingTable(c);
-        for (int i = 0; i < numBits; ++i)
-        {
-            std::cout << c->routingTable[i]->data << ' ';
-        }
-        std::cout << '\n';
+
         c = c->next;
     } while (c != head);
-    std::cout << '\n';
 }
 
 // Function to update the routing table for a given node
@@ -176,7 +181,7 @@ void RingDHT::display() {
     Node* current = head;
 
     do {
-        cout << "Node " << current->data << ": [ ";
+        cout << "Computer " << current->data << ":\t [ ";
         for (Node* entry : current->routingTable) {
             cout << (entry ? to_string(entry->data) : "null") << " ";
         }
@@ -297,32 +302,35 @@ void Login::insertFile(File file)
 {
     if (loggedInUser)
     {
-        int comp = 12;// = file;
+        int comp = HashforComputer(file.name) % (1 << bits);
         Node* node = this->searchNode(comp);
-        int key = 1;
+        int key = HashforComputer(file.name);
 
         node->Files_btree->insert(key, file);
     }
 }
 
-void Login::removeFile(int key)
+void Login::removeFile(string file)
 {
     if (loggedInUser)
     {
-        int comp = 12;// = file;
+        int comp = HashforComputer(file) % (1 << bits);
         Node* node = this->searchNode(comp);
+
+        int key = HashforComputer(file);
 
         node->Files_btree->remove(key);
     }
 }
 
-int Login::searchFile(int key)
+int Login::searchFile(string file)
 {
     if (loggedInUser)
     {
-        int comp = 12;// = file;
+        int comp = HashforComputer(file) % (1 << bits);
         Node* node = this->searchNode(comp);
 
+        int key = HashforComputer(file);
         btreenode* result = node->Files_btree->search(key);
 
         if (result)

@@ -5,6 +5,8 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
 {
     int choice;
     while (true) {
+        system("pause");
+        system("cls");
         std::cout << "\nLogin Menu:\n";
         std::cout << "1. Log In\n";
         std::cout << "2. Display Logged-In User\n";
@@ -77,14 +79,14 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
         }
         case 5:
         {
-            int file;
+            string file;
             std::cout << "Enter file: ";
             std::cin >> file;
             myComputer.removeFile(file);
             break;
         }
         case 6: {
-            int file;
+            string file;
             std::cout << "Enter file: ";
             std::cin >> file;
             if (myComputer.searchFile(file) == -1)
@@ -102,52 +104,96 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
     }
 }
 
+void networkMenu(RingDHT& list,int numBits) 
+{
+    int choice;
+    do {
+        system("pause");
+        system("cls");
+        // Display menu options
+        std::cout << "\nNetwork Menu:\n";
+        std::cout << "1. Insert Node\n";
+        std::cout << "2. Display Network\n";
+        std::cout << "3. Delete Node\n";
+        std::cout << "0. Exit\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
 
+        switch (choice) {
+        case 1: {
+            // Insert node
+            int nodeId;
+            std::cout << "Enter the Computer ID to insert: ";
+            std::cin >> nodeId;
+            if (nodeId <= (1 << numBits))
+            {
+                list.insertInOrder(nodeId);
+            }
+            else
+            {
+                std::cout << "ID Not Valid\n";
+            }
+            break;
+        }
+        case 2:
+            // Display network
+            std::cout << "Computer \t [Routing Table] : " << std::endl;
+            list.display();
+            break;
+        case 3: 
+        {
+            // Delete node
+            int nodeId;
+            std::cout << "Enter the Computer ID to delete: ";
+            std::cin >> nodeId;
+            list.deleteNode(nodeId);
+            break;
+        }
+        case 0:
+            std::cout << "Exiting the network menu." << std::endl;
+            break;
+        default:
+            std::cout << "Invalid choice. Please try again." << std::endl;
+        }
+    } while (choice != 4);
+}
 
 
 int main() {
-    // Ask the user for the number of bits
+    
     int numBits;
-    cout << "Enter the number of bits for the routing table: ";
-    cin >> numBits;
+    std::cout << "Enter the number of bits for the routing table: ";
+    std::cin >> numBits;
 
-    // Create a circular linked list with the specified number of bits
     RingDHT list(numBits);
+    Login comp(&list, numBits);
 
-    // Inserting nodes in order
-    list.insertInOrder(1);
-    list.insertInOrder(4);
-    list.insertInOrder(9);
-    list.insertInOrder(11);
-    list.insertInOrder(14);
-    list.insertInOrder(18);
-    list.insertInOrder(20);
-    list.insertInOrder(21);
-    list.insertInOrder(28);
+    int mainChoice;
 
-    // Displaying the list with routing tables
-    cout << "Double Circular Linked List with Routing Tables: " << endl;
-    list.display();
+    do {
+        system("pause");
+        system("cls");
+        std::cout << "\nMain Menu:\n";
+        std::cout << "1. Network Menu\n";
+        std::cout << "2. Login Menu\n";
+        std::cout << "0. Exit\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> mainChoice;
 
-    //list.deleteNode(14);
-    //list.deleteNode(21);
-
-    Node* searchedNode = list.searchNode(9);
-    if (searchedNode != nullptr) {
-        cout << "Node found: " << searchedNode->data << endl;
-    }
-    else {
-        cout << "Node not found." << endl;
-    }
-
-    // Displaying the updated list with routing tables
-    cout << "Updated Double Circular Linked List with Routing Tables: " << endl;
-    list.display();
-
-    Login comp(&list);
-
-    displayLoginMenu(comp, list);
-
+        switch (mainChoice) {
+        case 1:
+            networkMenu(list, numBits);
+            break;
+        case 2:
+            displayLoginMenu(comp, list);
+            break;
+        case 0:
+            std::cout << "Exiting the program." << std::endl;
+            break;
+        default:
+            std::cout << "Invalid choice. Please try again." << std::endl;
+        }
+    } while (mainChoice != 3);
     return 0;
 }
 
