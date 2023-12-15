@@ -14,19 +14,19 @@ bool Login::authenticateUser(int nodeIndex)
     return true;
 }
 
-Node* Login::getLoggedInUser() const
+ComputerMachine* Login::getLoggedInUser() const
 {
     return loggedInUser;
 }
 
-Node* Login::searchNode(int targetIndex) const
+ComputerMachine* Login::searchNode(int targetIndex) const
 {
     if (!loggedInUser) {
         std::cerr << "No user logged in.\n";
         return nullptr;
     }
 
-    Node* current = loggedInUser;
+    ComputerMachine* current = loggedInUser;
     int steps = 0; // Counter to track the number of nodes traversed
     bool endindex = 0;
     if (targetIndex > current->data)
@@ -34,7 +34,7 @@ Node* Login::searchNode(int targetIndex) const
         endindex = 1;
     }
     
-    Node* starting = current;
+    ComputerMachine* starting = current;
     bool startingFlag = 0;
     std::cout << "Nodes traversed: ";
     std::cout << "Node " << current->data << " -> ";
@@ -107,7 +107,7 @@ void Login::insertFile(File file)
     if (loggedInUser)
     {
         int comp = HashforComputer(file.name) % (1 << bits);
-        Node* node = this->searchNode(comp);
+        ComputerMachine* node = this->searchNode(comp);
         comp = node->data;
         std::cout << "\n";
         int key = HashforComputer(file.name);
@@ -144,7 +144,7 @@ void Login::removeFile(string file)
     if (loggedInUser)
     {
         int comp = HashforComputer(file) % (1 << bits);
-        Node* node = this->searchNode(comp);
+        ComputerMachine* node = this->searchNode(comp);
         comp = node->data;
         std::cout << "\n";
 
@@ -171,7 +171,7 @@ int Login::searchFile(string file)
     if (loggedInUser)
     {
         int comp = HashforComputer(file) % (1 << bits);
-        Node* node = this->searchNode(comp);
+        ComputerMachine* node = this->searchNode(comp);
         comp = node->data;
         std::cout << "\n";
 
@@ -195,6 +195,6 @@ void Login::printBtree()
 {
     if (loggedInUser)
     {
-        loggedInUser->Files_btree->traverse();
+        loggedInUser->Files_btree->displayAllData();
     }
 }

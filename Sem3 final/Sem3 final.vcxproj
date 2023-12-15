@@ -135,6 +135,7 @@
     <ClInclude Include="Login.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="RingDHT.h" />
+    <ClInclude Include="RoutningTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BTree.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="RingDHT.cpp" />
+    <ClCompile Include="RoutningTable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

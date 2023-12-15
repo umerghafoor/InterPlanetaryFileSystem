@@ -1,16 +1,17 @@
 #pragma once
-#include<vector>
-#include"BTree.h"
 
-class Node
+
+#include"BTree.h"
+#include"RoutningTable.h"
+class ComputerMachine
 {
 public:
     int data;
-    Node* next;
-    Node* prev;
-    vector<Node*> routingTable;
+    ComputerMachine* next;
+    ComputerMachine* prev;
+    vector<ComputerMachine*> routingTable;
     btree* Files_btree;
 
-    Node(int, int);
+    ComputerMachine(int, int);
 };
 

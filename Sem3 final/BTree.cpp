@@ -1,27 +1,27 @@
 #include "BTree.h"
 
-// Constructor for a B-tree, initializes the root to NULL and sets the order of the tree.
+// Constructor for a B-tree, initializes the root to nullptr and sets the order of the tree.
 btree::btree(int key)
 {
-    root = NULL;
+    root = nullptr;
     t = key;
 }
 
-// Searches for a key in the B-tree and returns the corresponding node; returns NULL if the tree is empty.
+// Searches for a key in the B-tree and returns the corresponding node; returns nullptr if the tree is empty.
 btreenode* btree::search(int keytosearch)
 {
-    return (root == NULL) ? NULL : root->search(keytosearch);
+    return (root == nullptr) ? nullptr : root->search(keytosearch);
 }
 
 // Inserts a key-value pair into the B-tree. If the root is empty, it creates a new root; otherwise, it inserts into the existing tree.
 void btree::insert(int keytoinsert, File file)
 
 {
-    if (root == NULL)
+    if (root == nullptr)
     {
         // Create a new root and insert the key-value pair.
         root = new btreenode(t, true);
-        root->key[0] = keytoinsert;
+        root->keyofFile[0] = keytoinsert;
         root->filepath[0] = file;
         root->n = 1;
     }
@@ -36,7 +36,7 @@ void btree::insert(int keytoinsert, File file)
             s->c[0] = root;
             s->splitchild(0, root);
             int i = 0;
-            if (s->key[0] < keytoinsert)
+            if (s->keyofFile[0] < keytoinsert)
                 i++;
             s->c[i]->insertnonfull(keytoinsert, file);
             root = s;
@@ -49,12 +49,11 @@ void btree::insert(int keytoinsert, File file)
 
 }
 
-// Initiates the traversal of the B-tree starting from the root, if it is not NULL.
-void btree::traverse()
+// Initiates the traversal of the B-tree starting from the root, if it is not nullptr.
+void btree::displayAllData()
 {
-    if (root != NULL)
-
-        root->traverse();
+    if (root != nullptr)
+        root->displayAllData();
 }
 
 // Removes a key from the B-tree. If the root is empty, displays an empty tree message; otherwise, delegates the removal to the root node.
@@ -62,14 +61,10 @@ void btree::remove(int keytoremove)
 
 {
 
-    if (!root)
-
+    if (root == nullptr)
     {
-
         std::cout << "The tree is empty\n";
-
         return;
-
     }
 
     // Delegate the removal operation to the root node.
@@ -80,9 +75,9 @@ void btree::remove(int keytoremove)
     {
         btreenode* temporary = root;
 
-        // If the root is a leaf, set it to NULL; otherwise, update the root to its child
-        if (root->leaf)
-            root = NULL;
+        // If the root is a leaf, set it to nullptr; otherwise, update the root to its child
+        if (root->isleaf)
+            root = nullptr;
         else
             root = root->c[0];
 
@@ -90,5 +85,4 @@ void btree::remove(int keytoremove)
     }
 
     return;
-
 }

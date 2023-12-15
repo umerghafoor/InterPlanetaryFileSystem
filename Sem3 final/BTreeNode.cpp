@@ -3,30 +3,30 @@
 btreenode::btreenode(int t1, bool leaf1)
 {
     t = t1;
-    leaf = leaf1;
-    key = new int[2 * t - 1];
+    isleaf = leaf1;
+    keyofFile = new int[2 * t - 1];
     filepath = new File[2 * t - 1];
     c = new btreenode * [2 * t];
     n = 0;
 }
 
-void btreenode::traverse()
+void btreenode::displayAllData()
 {
     int i;
     for (i = 0; i < n; i++)
     {
-        if (leaf == false)
-            c[i]->traverse();
+        if (isleaf == false)
+            c[i]->displayAllData();
         std::cout << "File ";
-        std::cout << "\t" << key[i];
+        std::cout << "\t" << keyofFile[i];
         std::cout << "\t" << filepath[i].name;
         std::cout << "\t" << filepath[i].path;
         std::cout << "\n";
     }
 
-    if (leaf == false)
+    if (isleaf == false)
 
-        c[i]->traverse();
+        c[i]->displayAllData();
 
 }
 
@@ -36,20 +36,20 @@ void btreenode::insertnonfull(int k, File f)
 
     int i = n - 1;
 
-    if (leaf == true)
+    if (isleaf == true)
     {
-        while (i >= 0 && key[i] > k)
+        while (i >= 0 && keyofFile[i] > k)
 
         {
 
-            key[i + 1] = key[i];
+            keyofFile[i + 1] = keyofFile[i];
             filepath[i + 1] = filepath[i];
 
             i--;
 
         }
 
-        key[i + 1] = k;
+        keyofFile[i + 1] = k;
         filepath[i + 1] = f;
 
         n = n + 1;
@@ -59,7 +59,7 @@ void btreenode::insertnonfull(int k, File f)
     else
     {
 
-        while (i >= 0 && key[i] > k)
+        while (i >= 0 && keyofFile[i] > k)
 
             i--;
 
@@ -69,7 +69,7 @@ void btreenode::insertnonfull(int k, File f)
 
             splitchild(i + 1, c[i + 1]);
 
-            if (key[i + 1] < k)
+            if (keyofFile[i + 1] < k)
 
                 i++;
 
@@ -85,15 +85,15 @@ void btreenode::splitchild(int i, btreenode* y)
 
 {
 
-    btreenode* z = new btreenode(y->t, y->leaf);
+    btreenode* z = new btreenode(y->t, y->isleaf);
 
     z->n = t - 1;
 
     for (int j = 0; j < t - 1; j++)
 
-        z->key[j] = y->key[j + t];
+        z->keyofFile[j] = y->keyofFile[j + t];
 
-    if (y->leaf == false)
+    if (y->isleaf == false)
 
     {
 
@@ -108,8 +108,8 @@ void btreenode::splitchild(int i, btreenode* y)
         c[j + 1] = c[j];
     c[i + 1] = z;
     for (int j = n - 1; j >= i; j--)
-        key[j + 1] = key[j];
-    key[i] = y->key[t - 1];
+        keyofFile[j + 1] = keyofFile[j];
+    keyofFile[i] = y->keyofFile[t - 1];
 
     n = n + 1;
 
@@ -120,13 +120,13 @@ btreenode* btreenode::search(int k)
 
     int i = 0;
 
-    while (i < n && k > key[i])
+    while (i < n && k > keyofFile[i])
 
         i++;
-    if (key[i] == k)
+    if (keyofFile[i] == k)
         return this;
 
-    if (leaf == true)
+    if (isleaf == true)
         return NULL;
 
     return c[i]->search(k);
@@ -139,7 +139,7 @@ int btreenode::findkey(int k)
 
     int idx = 0;
 
-    while (idx < n && key[idx] < k)
+    while (idx < n && keyofFile[idx] < k)
 
         ++idx;
 
@@ -153,11 +153,11 @@ void btreenode::remove(int k)
 
     int idx = findkey(k);
 
-    if (idx < n && key[idx] == k)
+    if (idx < n && keyofFile[idx] == k)
 
     {
 
-        if (leaf)
+        if (isleaf)
 
             removefromleaf(idx);
 
@@ -171,7 +171,7 @@ void btreenode::remove(int k)
 
     {
 
-        if (leaf)
+        if (isleaf)
 
         {
 
@@ -205,7 +205,7 @@ void btreenode::removefromleaf(int idx)
 {
     for (int j = idx + 1; j < n; ++j)
 
-        key[j - 1] = key[j];
+        keyofFile[j - 1] = keyofFile[j];
 
     n--;
 
@@ -215,7 +215,7 @@ void btreenode::removefromleaf(int idx)
 
 void btreenode::removefromnonleaf(int idx)
 {
-    int k = key[idx];
+    int k = keyofFile[idx];
 
     if (c[idx]->n >= t)
 
@@ -223,7 +223,7 @@ void btreenode::removefromnonleaf(int idx)
 
         int pred = getpred(idx);
 
-        key[idx] = pred;
+        keyofFile[idx] = pred;
 
         c[idx]->remove(pred);
 
@@ -235,7 +235,7 @@ void btreenode::removefromnonleaf(int idx)
 
         int succ = getsucc(idx);
 
-        key[idx] = succ;
+        keyofFile[idx] = succ;
 
         c[idx + 1]->remove(succ);
 
@@ -258,9 +258,9 @@ void btreenode::removefromnonleaf(int idx)
 int btreenode::getpred(int idx)
 {
     btreenode* cur = c[idx];
-    while (!cur->leaf)
+    while (!cur->isleaf)
         cur = cur->c[cur->n];
-    return cur->key[cur->n - 1];
+    return cur->keyofFile[cur->n - 1];
 }
 
 int btreenode::getsucc(int idx)
@@ -269,10 +269,10 @@ int btreenode::getsucc(int idx)
 
     btreenode* cur = c[idx + 1];
 
-    while (!cur->leaf)
+    while (!cur->isleaf)
         cur = cur->c[0];
 
-    return cur->key[0];
+    return cur->keyofFile[0];
 
 }
 
@@ -308,9 +308,9 @@ void btreenode::borrowfromprev(int idx)
     btreenode* sibling = c[idx - 1];
     for (int i = child->n - 1; i >= 0; --i)
 
-        child->key[i + 1] = child->key[i];
+        child->keyofFile[i + 1] = child->keyofFile[i];
 
-    if (!child->leaf)
+    if (!child->isleaf)
 
     {
 
@@ -320,14 +320,14 @@ void btreenode::borrowfromprev(int idx)
 
     }
 
-    child->key[0] = key[idx - 1];
+    child->keyofFile[0] = keyofFile[idx - 1];
 
-    if (!child->leaf)
+    if (!child->isleaf)
 
         child->c[0] = sibling->c[sibling->n];
 
 
-    key[idx - 1] = sibling->key[sibling->n - 1];
+    keyofFile[idx - 1] = sibling->keyofFile[sibling->n - 1];
 
     child->n += 1;
 
@@ -345,20 +345,20 @@ void btreenode::borrowfromnext(int idx)
 
     btreenode* sibling = c[idx + 1];
 
-    child->key[(child->n)] = key[idx];
+    child->keyofFile[(child->n)] = keyofFile[idx];
 
 
-    if (!(child->leaf))
+    if (!(child->isleaf))
 
         child->c[(child->n) + 1] = sibling->c[0];
 
-    key[idx] = sibling->key[0];
+    keyofFile[idx] = sibling->keyofFile[0];
 
     for (int j = 1; j < sibling->n; ++j)
 
-        sibling->key[j - 1] = sibling->key[j];
+        sibling->keyofFile[j - 1] = sibling->keyofFile[j];
 
-    if (!sibling->leaf)
+    if (!sibling->isleaf)
 
     {
 
@@ -384,14 +384,14 @@ void btreenode::merge(int idx)
 
     btreenode* sibling = c[idx + 1];
 
-    child->key[t - 1] = key[idx];
+    child->keyofFile[t - 1] = keyofFile[idx];
 
     for (int j = 0; j < sibling->n; ++j)
 
-        child->key[j + t] = sibling->key[j];
+        child->keyofFile[j + t] = sibling->keyofFile[j];
 
 
-    if (!child->leaf)
+    if (!child->isleaf)
 
     {
 
@@ -403,7 +403,7 @@ void btreenode::merge(int idx)
 
     for (int i = idx + 1; i < n; ++i)
 
-        key[i - 1] = key[i];
+        keyofFile[i - 1] = keyofFile[i];
 
     for (int j = idx + 2; j <= n; ++j)
 

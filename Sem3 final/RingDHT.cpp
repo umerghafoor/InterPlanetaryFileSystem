@@ -6,7 +6,7 @@ RingDHT::RingDHT(int bits) : head(nullptr), numBits(bits)
 
 // Function to insert a node in order and update the routing table
 void RingDHT::insertInOrder(int value) {
-    Node* newNode = new Node(value, numBits);
+    ComputerMachine* newNode = new ComputerMachine(value, numBits);
 
     if (head == nullptr || value <= head->data)
     {
@@ -19,7 +19,7 @@ void RingDHT::insertInOrder(int value) {
             head->prev = head;
         }
         else {
-            Node* last = head->prev;
+            ComputerMachine* last = head->prev;
             last->next = newNode;
             newNode->prev = last;
             newNode->next = head;
@@ -31,7 +31,7 @@ void RingDHT::insertInOrder(int value) {
     else
     {
         // Otherwise, find the correct position to insert the new node
-        Node* current = head->next;
+        ComputerMachine* current = head->next;
 
         while (current != head && value > current->data)
         {
@@ -39,7 +39,7 @@ void RingDHT::insertInOrder(int value) {
         }
 
         // Insert the new node before the current node
-        Node* prevNode = current->prev;
+        ComputerMachine* prevNode = current->prev;
 
         prevNode->next = newNode;
         newNode->prev = prevNode;
@@ -49,7 +49,7 @@ void RingDHT::insertInOrder(int value) {
         // Update routing table for the new node
     }
 
-    Node* c = head;
+    ComputerMachine* c = head;
     do
     {
         updateRoutingTable(c);
@@ -58,19 +58,19 @@ void RingDHT::insertInOrder(int value) {
 }
 
 // Function to update the routing table for a given node
-void RingDHT::updateRoutingTable(Node* node)
+void RingDHT::updateRoutingTable(ComputerMachine* node)
 {
     for (int i = 0; i < numBits; ++i)
     {
-        Node* successor = findSuccessor(node, i);
+        ComputerMachine* successor = findSuccessor(node, i);
         node->routingTable[i] = successor;
     }
 }
 
 // Helper function to find the successor for routing table entries
-Node* RingDHT::findSuccessor(Node* node, int index) {
+ComputerMachine* RingDHT::findSuccessor(ComputerMachine* node, int index) {
     int target = (node->data + (1 << index)) % (1 << numBits);
-    Node* current = head;
+    ComputerMachine* current = head;
 
     while (current->next != head && (current->next->data % (1 << numBits)) < target)
     {
@@ -86,8 +86,8 @@ void RingDHT::deleteNode(int value) {
         return;
     }
 
-    Node* current = head;
-    Node* nodeToDelete = nullptr;
+    ComputerMachine* current = head;
+    ComputerMachine* nodeToDelete = nullptr;
 
     // Find the node with the specified value
     do {
@@ -121,13 +121,13 @@ void RingDHT::deleteNode(int value) {
 }
 
 // Function to search for a node with a specific value
-Node* RingDHT::searchNode(int value) {
+ComputerMachine* RingDHT::searchNode(int value) {
     if (head == nullptr) {
         cout << "List is empty. Cannot search." << endl;
         return nullptr;
     }
 
-    Node* current = head;
+    ComputerMachine* current = head;
 
     // Search for the node with the specified value
     do {
@@ -143,7 +143,7 @@ Node* RingDHT::searchNode(int value) {
 
 // Helper function to update routing tables for all nodes in the list
 void RingDHT::updateAllRoutingTables() {
-    Node* current = head;
+    ComputerMachine* current = head;
     do {
         updateRoutingTable(current);
         current = current->next;
@@ -158,13 +158,15 @@ void RingDHT::display() {
         return;
     }
 
-    Node* current = head;
+    ComputerMachine* current = head;
 
     do {
         cout << "Node " << current->data << ": [ ";
-        for (Node* entry : current->routingTable) {
+        for (size_t i = 0; i < current->routingTable.getSize(); i++) {
+            ComputerMachine* entry = current->routingTable[i];
             cout << (entry ? to_string(entry->data) : "null") << " ";
         }
+
         cout << "]" << endl;
 
         current = current->next;

@@ -12,7 +12,7 @@ public:
 
 	btree(int);
 	void insert(int, File);
-	void traverse();
+	void displayAllData();
 	void remove(int);
 	btreenode* search(int);
 };

@@ -6,7 +6,7 @@ using namespace std;
 class RingDHT
 {
 private:
-    Node* head;
+    ComputerMachine* head;
     int numBits; // Number of bits for the routing table
 
 public:
@@ -16,15 +16,15 @@ public:
     void insertInOrder(int);
 
     // Function to update the routing table for a given node
-    void updateRoutingTable(Node*);
+    void updateRoutingTable(ComputerMachine*);
 
     // Helper function to find the successor for routing table entries
-    Node* findSuccessor(Node*, int);
+    ComputerMachine* findSuccessor(ComputerMachine*, int);
     // Function to delete a node with a specific value
     void deleteNode(int);
 
     // Function to search for a node with a specific value
-    Node* searchNode(int);
+    ComputerMachine* searchNode(int);
 
     // Helper function to update routing tables for all nodes in the list
     void updateAllRoutingTables();

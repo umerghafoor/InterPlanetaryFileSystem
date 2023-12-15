@@ -37,7 +37,7 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
             break;
         }
         case 2: {
-            Node* loggedInUser = myComputer.getLoggedInUser();
+            ComputerMachine* loggedInUser = myComputer.getLoggedInUser();
             if (loggedInUser) {
                 std::cout << "Logged-in user: Computer " << loggedInUser->data << "\n";
             }
@@ -55,7 +55,7 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
                 std::cout << "Enter the index of the target node to search: ";
                 std::cin >> targetIndex;
 
-                Node* targetNode = myComputer.searchNode(targetIndex);
+                ComputerMachine* targetNode = myComputer.searchNode(targetIndex);
                 if (targetNode) {
                     std::cout << "You are at Computer No. " << targetNode->data << "\n";
                 }

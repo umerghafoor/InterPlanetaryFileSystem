@@ -5,18 +5,18 @@
 class btreenode
 {
 public:
-	int* key;
+	int* keyofFile;
 	File* filepath;
 
 	int t;
 	btreenode** c;
 	int n;
-	bool leaf;
+	bool isleaf;
 
 
 	btreenode(int, bool);
 
-	void traverse();
+	void displayAllData();
 	int findkey(int);
 	void splitchild(int i, btreenode* y);
 	void remove(int);
