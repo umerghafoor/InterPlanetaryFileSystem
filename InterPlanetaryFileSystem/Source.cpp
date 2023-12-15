@@ -5,6 +5,8 @@ void displayLoginMenu(Login& myComputer, RingDHT& ring)
 {
     int choice;
     while (true) {
+
+        std::cout << "\n\n\n\n\n\n\n\n";
         system("pause");
         system("cls");
         std::cout << "\nLogin Menu:\n";
@@ -108,6 +110,8 @@ void networkMenu(RingDHT& list,int numBits)
 {
     int choice;
     do {
+
+        std::cout << "\n\n\n\n\n\n\n\n";
         system("pause");
         system("cls");
         // Display menu options
@@ -125,7 +129,7 @@ void networkMenu(RingDHT& list,int numBits)
             int nodeId;
             std::cout << "Enter the Computer ID to insert: ";
             std::cin >> nodeId;
-            if (nodeId <= (1 << numBits))
+            if (nodeId < (1 << numBits))
             {
                 list.insertInOrder(nodeId);
             }
@@ -151,7 +155,7 @@ void networkMenu(RingDHT& list,int numBits)
         }
         case 0:
             std::cout << "Exiting the network menu." << std::endl;
-            break;
+            return;
         default:
             std::cout << "Invalid choice. Please try again." << std::endl;
         }
@@ -171,6 +175,7 @@ int main() {
     int mainChoice;
 
     do {
+        std::cout << "\n\n\n\n\n\n\n\n";
         system("pause");
         system("cls");
         std::cout << "\nMain Menu:\n";
