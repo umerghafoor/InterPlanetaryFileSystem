@@ -128,8 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileClass.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="RingDHT.cpp" />
-    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileClass.h" />

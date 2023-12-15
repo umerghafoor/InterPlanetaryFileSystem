@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <windows.h>
@@ -52,19 +53,33 @@ bool copyFile(const std::string& sourcePath, const std::string& destinationPath)
     return true;
 }
 
-int main() {
-    // Example usage
-    std::string sourceFilePath = "D:\\Users\\Hp\\OneDrive\\Desktop\\R.png";
-    std::string destinationFilePath = "folder\\R.png";
+bool isValidFilePath(const std::string& filePath) 
+{
+    DWORD fileAttributes = ::GetFileAttributesA(filePath.c_str());
 
-    if (copyFile(sourceFilePath, destinationFilePath)) {
-        // File copied successfully
-        // Additional processing or logging can be done here
+    if (fileAttributes != INVALID_FILE_ATTRIBUTES && !(fileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+        // The path is valid and it points to a file (not a directory)
+        return true;
     }
     else {
-        // Handle error
-        // Additional error handling or logging can be done here
+        std::cerr << "Invalid file path: " << filePath << std::endl;
+        return false;
     }
+}
 
-    return 0;
+bool deleteFile(const std::string& filePath) {
+    if (::DeleteFileA(filePath.c_str())) {
+        std::cout << "File deleted successfully." << std::endl;
+        return true;
+    }
+    else {
+        DWORD error = GetLastError();
+        if (error == ERROR_FILE_NOT_FOUND) {
+            std::cerr << "File not found: " << filePath << std::endl;
+        }
+        else {
+            std::cerr << "Failed to delete file: " << filePath << std::endl;
+        }
+        return false;
+    }
 }

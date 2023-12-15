@@ -9,7 +9,7 @@ public:
 	string name;
 
 
-	File(const string& path, const string& name)
+	File(const string& name, const string& path)
 		: path(path), name(name)
 	{
 	}
